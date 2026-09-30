@@ -1,6 +1,6 @@
 # grishinsemen.github.io
 
-Личный сайт Семёна Гришина, младшего системного аналитика. Живёт на GitHub Pages: **https://grishinsemen.github.io/**
+Личный сайт. Живёт на GitHub Pages: **https://grishinsemen.github.io/**
 
 ## Что внутри
 
