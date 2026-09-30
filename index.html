@@ -47,20 +47,28 @@ h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;letter-spacing:-.02
 .hero h1{font-size:clamp(42px,8vw,92px);line-height:1;margin-bottom:28px}
 .hero .lead{font-size:20px;line-height:1.55;max-width:30em;margin:0 0 32px;color:rgba(255,255,255,.88)}
 .actions{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-block;padding:14px 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;border:2px solid #fff;color:#fff}
+.btn{display:inline-block;padding:14px 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;border:2px solid #fff;color:#fff;transition:background-color .25s,border-color .25s,color .25s,transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
 .btn.solid{background:#fff;color:var(--blue)}
 .btn:hover{background:var(--hi);border-color:var(--hi);color:#0d1330}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 24px -10px rgba(13,19,48,.55)}
+.btn:active{transform:translateY(0) scale(.96);box-shadow:none;transition-duration:.08s}
+.top nav a{transition:background-color .25s}
+@media (prefers-reduced-motion:reduce){.btn,.btn:hover,.btn:active{transform:none;transition:none}}
 
 /* process stepper (native details, no JS) */
 .steps{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);border-radius:24px;padding:10px 26px;counter-reset:s}
 .steps h2{font:600 14px var(--body);letter-spacing:0;color:rgba(255,255,255,.75);padding:14px 0 6px}
-.steps details{border-top:1px solid rgba(255,255,255,.22);counter-increment:s}
+.steps details{border-top:1px solid rgba(255,255,255,.22);counter-increment:s;margin:0 -10px;padding:0 10px}
 .steps details:first-of-type{border-top:0}
 .steps summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 0;font:600 18px var(--body)}
 .steps summary::-webkit-details-marker{display:none}
 .steps summary::before{content:counter(s);flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid #fff;display:grid;place-items:center;font-size:14px}
-.steps details[open] summary::before{background:var(--hi);border-color:var(--hi);color:#0d1330}
-.steps p{margin:0 0 18px 46px;font-size:16px;line-height:1.55;color:rgba(255,255,255,.88)}
+.steps summary::before{transition:background-color .3s,border-color .3s,color .3s,transform .3s cubic-bezier(.2,.7,.2,1)}
+.steps summary:hover::before{transform:scale(1.1)}
+.steps details[open]:not(.closing) summary::before{background:var(--hi);border-color:var(--hi);color:#0d1330}
+.steps p{margin:0;padding:0 0 18px 46px;font-size:16px;line-height:1.55;color:rgba(255,255,255,.88);transition:opacity .3s ease .08s,transform .4s cubic-bezier(.2,.7,.2,1) .08s}
+.steps details:not([open]) p,.steps details.closing p{opacity:0;transform:translateY(-6px);transition-delay:0s}
+@media (prefers-reduced-motion:reduce){.steps *{transition:none!important}}
 
 /* sections */
 section{padding:88px 0 0}
@@ -70,12 +78,13 @@ section{padding:88px 0 0}
 .pills{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .pills li{padding:6px 15px;border:1px solid var(--line);background:var(--surface);border-radius:999px;font-size:15px;font-weight:500}
 
-.proj{display:grid;grid-template-columns:1fr auto;gap:8px 32px;padding:32px 28px;margin:0 -28px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;border-radius:20px}
+.proj{display:grid;grid-template-columns:1fr auto;gap:8px 32px;padding:32px 28px;margin:0 -28px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;border-radius:20px;transition:background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1)}
 .proj:last-of-type{border-bottom:1px solid var(--line)}
 .proj h3{font-size:clamp(22px,3vw,32px);line-height:1.15}
-.proj p{margin:8px 0 0;max-width:34em;color:var(--muted)}
-.proj .stack{grid-row:1;grid-column:2;font-size:14px;font-weight:600;color:var(--muted);align-self:start;padding-top:8px}
+.proj p{margin:8px 0 0;max-width:34em;color:var(--muted);transition:color .2s cubic-bezier(.4,0,.2,1)}
+.proj .stack{grid-row:1;grid-column:2;font-size:14px;font-weight:600;color:var(--muted);align-self:start;padding-top:8px;transition:color .2s cubic-bezier(.4,0,.2,1)}
 .proj:hover{background:var(--blue);color:#fff}
+@media (prefers-reduced-motion:reduce){.proj,.proj p,.proj .stack{transition:none}}
 .proj:hover p,.proj:hover .stack{color:rgba(255,255,255,.85)}
 .more{margin:24px 0 0}
 
@@ -125,19 +134,19 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:14px}
       </div>
       <div class="steps">
         <h2>Как я подхожу к задаче</h2>
-        <details name="flow" open>
+        <details open>
           <summary>Запрос</summary>
           <p>Выясняю, какую проблему решает задача, кто заказчик и что будет считаться результатом.</p>
         </details>
-        <details name="flow">
+        <details>
           <summary>Уточнение</summary>
           <p>Задаю вопросы, пока не уходят «наверное» и «как обычно». Собираю исключения и граничные случаи.</p>
         </details>
-        <details name="flow">
+        <details>
           <summary>Описание</summary>
           <p>Фиксирую требования, процессы и данные: UML, BPMN, таблицы, запросы к базе.</p>
         </details>
-        <details name="flow">
+        <details>
           <summary>Проверка</summary>
           <p>Сверяю описание с заказчиком и командой до старта разработки. Есть вопросы — возвращаюсь к шагу 2.</p>
         </details>
@@ -223,7 +232,7 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:14px}
   <section id="contact" style="padding-top:0">
     <div class="contact">
       <h2>Открыт к предложениям</h2>
-      <p>Москва. Рассматриваю офис, гибрид и удалённую работу, полную занятость. Готов к командировкам.</p>
+      <p>Москва. Рассматриваю офис, гибрид и удалённую работу, полную занятость.</p>
       <div class="actions">
         <a class="btn solid" href="https://t.me/samuellg">Telegram @samuellg</a>
         <a class="btn" href="mailto:grishinsemen@yandex.ru">grishinsemen@yandex.ru</a>
@@ -237,5 +246,39 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:14px}
   <div class="wrap">Семён Гришин, 2026</div>
 </footer>
 
+<script>
+(function(){
+  var items=[].slice.call(document.querySelectorAll('.steps details'));
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function run(d,from,to,done){
+    if(d._a){d._a.cancel();}
+    d.style.overflow='hidden';
+    var a=d._a=d.animate({height:[from+'px',to+'px']},{duration:reduce?0:420,easing:'cubic-bezier(.2,.7,.2,1)'});
+    a.onfinish=function(){d._a=null;d.style.overflow='';d.style.height='';done&&done();};
+    a.oncancel=function(){d.style.overflow='';};
+  }
+  function open(d){
+    var from=d.getBoundingClientRect().height;
+    if(d._a){d._a.cancel();d._a=null;}
+    d.classList.remove('closing');
+    d.open=true;
+    run(d,from,d.getBoundingClientRect().height);
+  }
+  function close(d){
+    var from=d.getBoundingClientRect().height;
+    var to=d.querySelector('summary').getBoundingClientRect().height+(d.offsetHeight-d.clientHeight);
+    d.classList.add('closing');
+    run(d,from,to,function(){d.open=false;d.classList.remove('closing');});
+  }
+  items.forEach(function(d){
+    d.querySelector('summary').addEventListener('click',function(e){
+      e.preventDefault();
+      if(d.open&&!d.classList.contains('closing')){close(d);return;}
+      items.forEach(function(o){if(o!==d&&o.open&&!o.classList.contains('closing'))close(o);});
+      open(d);
+    });
+  });
+})();
+</script>
 </body>
 </html>
